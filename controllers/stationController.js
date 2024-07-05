@@ -4,6 +4,7 @@ function stationController(){};
 
 // create a new station
 stationController.prototype.create = (async (req, res) => {
+    console.log(req.body);
     let station = new Station({
         actual: req.body.actual,
         target: req.body.target
