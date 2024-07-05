@@ -35,7 +35,7 @@ stationController.prototype.update = (async (req, res) => {
 
 // delete a single entry
 stationController.prototype.delete = (async (req, res) => {
-    await Station.findByIdAndRemove(req.body.id);
+    await Station.findByIdAndDelete(req.params.id);
     res.json({message: 'Station deleted'});
 });
 
