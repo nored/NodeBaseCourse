@@ -3,30 +3,13 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var db = require('./bin/db');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
-// Import the mongoose module
+
 var mongoose = require('mongoose');
-
-let dbConfig = {
-  server: {
-        port: process.env.PORT || 5001,
-        hostname: process.env.HOSTNAME || '127.0.0.1',
-    },
-    database: {
-      url: 'mongodb://127.0.0.1:27017',
-      connectionOptions: {
-        dbName: 'test',
-        pass: 'admin',
-        user: 'admin',
-      }
-    }
-}
-
-mongoose.connect(dbConfig.database.url, dbConfig.database.connectionOptions);
-
 const Cat = mongoose.model('Cat', { name: String });
 
 const kitty = new Cat({ name: 'Zildjian' });
