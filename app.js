@@ -8,14 +8,6 @@ var db = require('./bin/db');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
-
-var mongoose = require('mongoose');
-const Cat = mongoose.model('Cat', { name: String });
-
-const kitty = new Cat({ name: 'Zildjian' });
-kitty.save().then(() => console.log('meow'));
-
-
 var app = express();
 
 // view engine setup
