@@ -6,13 +6,68 @@
     <title>Icecream Particles</title>
   </head>
   <body>
-    Hello World!
     <br />
-    <a href="/list">List</a>
-    <form action="/create" method="post">
-      <input type="number" name="actual" />
-      <input type="number" name="target" />
-      <input type="submit" value="Submit" />
+    <br />
+    <div id="station-list"></div>
+    <br />
+    <br />
+    <form id="station-form">
+      <input id="actual" type="number" />
+      <input id="target" type="number" />
+      <input id="submit" type="submit" value="Submit" />
     </form>
   </body>
 </html>
+
+<script>
+  function listStations() {
+    fetch("/list")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        displayStations(data);
+      });
+  }
+
+  function displayStations(data) {
+    if (data.length === 0) {
+      return;
+    }
+    let stationsList = document.getElementById("station-list");
+
+    let stations = "";
+
+    for (let i = 0; i < data.length; i++) {
+      const element = data[i];
+      stations += `<p>Station ${element._id} - Actual: ${element.actual} - Target: ${element.target}</p><br>`;
+    }
+
+    stationsList.innerHTML = stations;
+  }
+
+  document
+    .getElementById("station-form")
+    .addEventListener("submit", function (e) {
+      e.preventDefault();
+      createStation();
+    });
+
+  function createStation() {
+    let actual = document.getElementById("actual").value;
+    let target = document.getElementById("target").value;
+
+    fetch("/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ actual, target }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        listStations();
+      });
+  }
+  document.onload = listStations();
+</script>
